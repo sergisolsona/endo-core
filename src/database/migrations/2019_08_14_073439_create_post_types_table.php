@@ -14,10 +14,11 @@ class CreatePostTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_types', function (Blueprint $table) {
+        Schema::create('endo_post_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('url_name')->unique();
+            $table->string('url_name')->unique()->nullable();
+            $table->boolean('translatable')->default(true);
             $table->tinyInteger('show_image')->default(1);
             $table->tinyInteger('show_content')->default(1);
             $table->tinyInteger('show_author')->default(1);
@@ -27,7 +28,7 @@ class CreatePostTypesTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('post_types')->insert([
+        DB::table('endo_post_types')->insert([
             'name' => 'post'
         ]);
     }
@@ -39,6 +40,6 @@ class CreatePostTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_types');
+        Schema::dropIfExists('endo_post_types');
     }
 }

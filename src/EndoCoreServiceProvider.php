@@ -2,6 +2,7 @@
 
 namespace Endo\EndoCore;
 
+use Endo\EndoCore\Models\User;
 use Illuminate\Support\ServiceProvider;
 
 class EndoCoreServiceProvider extends ServiceProvider
@@ -16,6 +17,8 @@ class EndoCoreServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'EndoCore');
+
+        $this->setUserModel();
     }
 
     /**
@@ -26,5 +29,13 @@ class EndoCoreServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+
+    private function setUserModel()
+    {
+        if (config('auth.providers.users.model') != User::class) {
+            config()->set('auth.providers.users.model', User::class);
+        }
     }
 }

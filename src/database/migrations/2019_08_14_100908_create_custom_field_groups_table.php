@@ -13,8 +13,12 @@ class CreateCustomFieldGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('custom_field_groups', function (Blueprint $table) {
+        Schema::create('endo_custom_field_groups', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->unique();
+            $table->boolean('translatable');
+            $table->integer('order')->default(0);
+            $table->string('position');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateCustomFieldGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('custom_field_groups');
+        Schema::dropIfExists('endo_custom_field_groups');
     }
 }

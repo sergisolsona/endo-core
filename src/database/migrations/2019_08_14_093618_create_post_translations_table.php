@@ -13,21 +13,21 @@ class CreatePostTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_translations', function (Blueprint $table) {
+        Schema::create('endo_post_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('post_id')->unsigned();
+            $table->integer('endo_post_id')->unsigned();
             $table->string('title')->nullable();
             $table->longText('description')->nullable();
             $table->string('post_name')->nullable();
             $table->string('urls_post_name')->nullable();
-            $table->integer('media_id')->unsigned()->nullable();
+            $table->integer('endo_media_id')->unsigned()->nullable();
             $table->string('locale')->index();
             $table->timestamps();
 
-            $table->unique(['post_id','locale']);
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->unique(['endo_post_id', 'locale']);
+            $table->foreign('endo_post_id')->references('id')->on('endo_posts')->onDelete('cascade');
 
-            $table->foreign('media_id')->references('id')->on('medias')
+            $table->foreign('endo_media_id')->references('id')->on('endo_medias')
                 ->onDelete('SET NULL');
         });
     }
@@ -39,6 +39,6 @@ class CreatePostTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_translations');
+        Schema::dropIfExists('endo_post_translations');
     }
 }
