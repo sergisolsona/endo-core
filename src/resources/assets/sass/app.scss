@@ -1,0 +1,45 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Font-awesome
+@import '~font-awesome/scss/font-awesome';
+
+// Ladda
+@import "~ladda/css/ladda";
+
+// Toastr
+@import "~toastr/toastr";
+
+// iCheck
+@import "~icheck-bootstrap/icheck-bootstrap";
+
+// Fullcalendar
+@import "~fullcalendar/dist/fullcalendar";
+
+// Datepicker
+@import "datepicker/datepicker3";
+
+
+
+// Jasny
+@import "custom/jasny-fixes";
+@import "~jasny-bootstrap/scss/jasny-bootstrap.scss";
+
+// Color picker
+@import "~spectrum-colorpicker/spectrum";
+
+
+// Inspinia
+@import "style/animate";
+@import "style/styles";
+// Chosen js
+/*@import "~bootstrap-chosen/bootstrap-chosen.scss";*/
+
+@import "custom/fixes";
