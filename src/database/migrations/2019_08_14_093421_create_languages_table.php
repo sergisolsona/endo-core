@@ -14,7 +14,7 @@ class CreateLanguagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('languages', function (Blueprint $table) {
+        Schema::create('endo_languages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('code')->index();
@@ -23,16 +23,16 @@ class CreateLanguagesTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('languages')->insert([
+        DB::table('endo_languages')->insert([
             'name' => 'English',
             'code' => 'en'
         ]);
-        DB::table('languages')->insert([
+        DB::table('endo_languages')->insert([
             'name' => 'Spanish',
             'code' => 'es',
             'default' => true
         ]);
-        DB::table('languages')->insert([
+        DB::table('endo_languages')->insert([
             'name' => 'Catalan',
             'code' => 'ca'
         ]);
@@ -45,6 +45,6 @@ class CreateLanguagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('languages');
+        Schema::dropIfExists('endo_languages');
     }
 }

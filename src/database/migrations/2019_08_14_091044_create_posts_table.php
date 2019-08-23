@@ -13,9 +13,9 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('endo_posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('post_type_id')->unsigned()->nullable();
+            $table->integer('endo_post_type_id')->unsigned()->nullable();
             $table->smallInteger('status')->default(1);
             $table->string('template')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
@@ -24,13 +24,13 @@ class CreatePostsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('post_type_id')->references('id')->on('post_types')
+            $table->foreign('endo_post_type_id')->references('id')->on('endo_post_types')
                 ->onDelete('SET NULL');
 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('SET NULL');
 
-            $table->foreign('parent_id')->references('id')->on('posts')
+            $table->foreign('parent_id')->references('id')->on('endo_posts')
                 ->onDelete('SET NULL');
         });
     }
@@ -42,6 +42,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('endo_posts');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Endo\EndoCore\Models;
 
+use Endo\EndoCore\App\Models\EndoRole;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -24,4 +25,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    public function endoRole()
+    {
+        return $this->belongsTo(EndoRole::class);
+    }
 }
