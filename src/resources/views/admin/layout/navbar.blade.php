@@ -7,7 +7,7 @@
         </div>
         <ul id="top_right" class="nav navbar-top-links navbar-right">
             <li >
-                <a  href="{{ route('home') }}" target="_blank" aria-expanded="false">
+                <a  href="{{ url('/') }}" target="_blank" aria-expanded="false">
                     <div class="text-info">{{ 'Endotest TODO' }} &nbsp;<i class="fa fa-external-link"></i></div>
                 </a>
             </li>
