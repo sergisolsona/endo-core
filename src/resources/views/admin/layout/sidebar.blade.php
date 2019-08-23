@@ -1,6 +1,6 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
     <form id="logout-form" action="{{ url('/logout') }}" method="post">
-        {{ csrf_field() }}
+        @csrf
     </form>
 
     <div class="sidebar-collapse" style="width: auto; height: 100%;">
@@ -22,8 +22,8 @@
                             <ul class="dropdown-menu animated fadeInDown m-t-xs">
                                 {{--<li class="divider"></li>--}}
                                 <li>
-                                    {{--<a href="#" onclick="$('#logout-form').submit();" title="Logout">Cerrar sesión</a>--}}
-                                    <a href="{{ url('/logout') }}" title="Logout">Logout</a>
+                                    <a href="#" onclick="$('#logout-form').submit();" title="Logout">Cerrar sesión</a>
+                                    {{--<a href="{{ url('/logout') }}" onclick="e.preventDefault();$('#llogout-form').submit();" title="Logout">Logout</a>--}}
                                 </li>
                             </ul>
                         </div>

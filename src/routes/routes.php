@@ -43,7 +43,11 @@ Route::post('register', [
 ]);
 
 Route::get('/', [
-    'as'            => 'home',
-    'middleware'    => 'auth',
+    'as'   => 'home',
     'uses' => 'IndexController@index'
 ]);
+
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+    include('admin.php');
+});

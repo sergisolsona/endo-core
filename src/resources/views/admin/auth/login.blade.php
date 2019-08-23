@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('EndoCore::admin.layout.html')
 
-@section('content')
+@section('body')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

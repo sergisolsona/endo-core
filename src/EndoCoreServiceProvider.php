@@ -36,7 +36,8 @@ class EndoCoreServiceProvider extends ServiceProvider
             __DIR__.'/public' => public_path('vendor/endo'),
         ], 'public');
 
-        if (md5_file(__DIR__ . '/public/mix-manifest.json') !== md5_file(public_path('vendor/endo/mix-manifest.json'))) {
+        if (!file_exists(public_path('vendor/endo/mix-manifest.json'))
+            || md5_file(__DIR__ . '/public/mix-manifest.json') !== md5_file(public_path('vendor/endo/mix-manifest.json'))) {
             Artisan::call('vendor:publish', [
                 '--tag' => 'public',
                 '--force' => 1
@@ -74,6 +75,6 @@ class EndoCoreServiceProvider extends ServiceProvider
 
         Route::middleware('endo')
             ->namespace('Endo\EndoCore\App\Http\Controllers')
-            ->group(__DIR__ . '/routes.php');
+            ->group(__DIR__ . '/routes/routes.php');
     }
 }

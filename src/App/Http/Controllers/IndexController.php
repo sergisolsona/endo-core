@@ -14,6 +14,9 @@ class IndexController extends EndoBaseController
 
     public function index()
     {
-        return view('EndoCore::admin.index');
+        return view()->first([
+            'endo.home',
+            'EndoCore::welcome'
+        ]);
     }
 }

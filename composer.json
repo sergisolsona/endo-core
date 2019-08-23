@@ -12,7 +12,10 @@
     "autoload": {
         "psr-4": {
             "Endo\\EndoCore\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers/EndoHelper.php"
+        ]
     },
     "extra": {
         "laravel": {
