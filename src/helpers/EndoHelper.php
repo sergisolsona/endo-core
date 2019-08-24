@@ -18,3 +18,23 @@ if (! function_exists('endo_setting')) {
         return $endoSettings->get($key, $default);
     }
 }
+
+
+if (! function_exists('route_name')) {
+    /**
+     * @param null $as
+     *
+     * @return bool|string|null
+     */
+    function route_name($as = null)
+    {
+        if (!request()->route()) {
+            return null;
+        }
+
+        $route = request()->route()->getAction();
+        if (array_key_exists('as', $route)) {
+            return $as ? $as == $route['as'] : $route['as'];
+        }
+    }
+}

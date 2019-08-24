@@ -18,10 +18,11 @@ class CreateRolesTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->integer('level')->unsigned()->default(0);
+            $table->boolean('is_dev')->default(false);
             $table->timestamps();
         });
 
-        DB::table('endo_roles')->insert(['name' => 'admin', 'level' => 99]);
+        DB::table('endo_roles')->insert(['name' => 'admin', 'level' => 99, 'is_dev' => true]);
         DB::table('endo_roles')->insert(['name' => 'subadmin', 'level' => 90]);
         DB::table('endo_roles')->insert(['name' => 'editor', 'level' => 2]);
         DB::table('endo_roles')->insert(['name' => 'user', 'level' => 1]);

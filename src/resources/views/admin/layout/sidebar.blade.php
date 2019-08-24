@@ -11,22 +11,20 @@
                         <img class="@if($user)img-circle @else sidebar-logo @endif" @if($user)width="48" height="48"@else width="96"@endif alt="Endo" src="{{ asset('vendor/endo/imgs/' . $user->avatar) }}">
                     </span>
                     @if ($user)
-                        <div>
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
-                                <span class="clear">
-                                    <span class="block m-t-xs"> <strong class="font-bold">{{ $user->name }}</strong></span>
-                                    <span class="text-muted text-xs block">{{ $user->endoRole->name }} <b class="caret"></b></span>
-                                </span>
-                            </a>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+                            <span class="clear">
+                                <span class="block m-t-xs"> <strong class="font-bold">{{ $user->name }}</strong></span>
+                                <span class="text-muted text-xs block">{{ $user->endoRole->name }} <b class="caret"></b></span>
+                            </span>
+                        </a>
 
-                            <ul class="dropdown-menu animated fadeInDown m-t-xs">
-                                {{--<li class="divider"></li>--}}
-                                <li>
-                                    <a href="#" onclick="$('#logout-form').submit();" title="Logout">Cerrar sesión</a>
-                                    {{--<a href="{{ url('/logout') }}" onclick="e.preventDefault();$('#llogout-form').submit();" title="Logout">Logout</a>--}}
-                                </li>
-                            </ul>
-                        </div>
+                        <ul class="dropdown-menu animated fadeInDown m-t-xs">
+                            {{--<li class="divider"></li>--}}
+                            <li>
+                                <a href="#" onclick="$('#logout-form').submit();" title="Logout">Cerrar sesión</a>
+                                {{--<a href="{{ url('/logout') }}" onclick="e.preventDefault();$('#llogout-form').submit();" title="Logout">Logout</a>--}}
+                            </li>
+                        </ul>
                     @endif
                 </div>
             </li>
@@ -198,13 +196,13 @@
                         @endcan
                     </ul>
                 </li>
-            @endcan
-
-            @can('view', 'admin.')
-                <li @if(strpos(route_name(), 'admin.')  !== false)class="active"@endif>
-                    <a class="js-click" title="Administrar BO2" href="{{ route('admin.index', []) }}"><i class="fa fa-cogs"></i> <span class="nav-label">Admin BO2</span></a>
-                </li>
             @endcan--}}
+
+            @can('view', 'admin.dev')
+                <li @if(strpos(route_name(), 'admin.dev.')  !== false)class="active"@endif>
+                    <a class="js-click" title="@lang('Dev menu')" href="{{ route('admin.dev', []) }}"><i class="fa fa-cogs"></i> <span class="nav-label">@lang('Dev menu')</span></a>
+                </li>
+            @endcan
         </ul>
     </div>
 </nav>
