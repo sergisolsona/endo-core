@@ -16,6 +16,6 @@ class DevIndexController extends EndoBaseController
 
     public function index()
     {
-        return '';
+        return view('EndoCore::admin.index');
     }
 }

@@ -10,3 +10,6 @@ Route::get('/', [
     'as'   => 'admin.dev',
     'uses' => 'Admin\DevIndexController@index'
 ]);
+
+
+Route::resource('languages', 'Admin\LanguagesController', ['as' => 'admin.dev']);

@@ -381,3 +381,42 @@ fixedSideBarElement.click(function (){
     }
 });
 
+
+$(".js-click").each(function(e, item) {
+    $(item).click(function(e){
+        $('.backoffice-loader').show();
+    });
+});
+
+Pace.start();
+
+/*$('.footable').footable({paginate: false});*/
+
+$(".js-delete-entity").each(function (e, item) {
+    $(item).click(function (e) {
+        var $element = $(this);
+        var entityMessage = $element.data('entity-message');
+        if(confirm(entityMessage)) {
+            var deleteUrl = $element.data('url');
+            var token = $element.data('token');
+            var redirectUrl = $element.data('redirect');
+
+            $.ajax({
+                type: "DELETE",
+                url: deleteUrl,
+                data: ({_token: token}),
+                cache: false,
+                dataType: "text",
+                success: function (data) {
+                    if (typeof redirectUrl !== 'undefined') {
+                        window.location = redirectUrl;
+                    }
+                },
+                error: function () {
+                    toastr.error('Error!');
+                }
+            });
+        }
+    })
+});
+

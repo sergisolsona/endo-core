@@ -3,14 +3,17 @@
 namespace Endo\EndoCore;
 
 use Endo\EndoCore\App\Console\Commands\CreateAdmin;
+use Endo\EndoCore\App\Http\Middleware\Developer;
 use Endo\EndoCore\App\Http\Middleware\Locale;
 use Endo\EndoCore\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class EndoCoreServiceProvider extends ServiceProvider
 {
     private $middlewareGroup = [
+        Locale::class,
         \App\Http\Middleware\EncryptCookies::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
@@ -18,7 +21,7 @@ class EndoCoreServiceProvider extends ServiceProvider
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\VerifyCsrfToken::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        Locale::class
+
     ];
 
     private $commands = [
@@ -89,5 +92,7 @@ class EndoCoreServiceProvider extends ServiceProvider
         foreach ($this->middlewareGroup as $middleware) {
             $router->pushMiddlewareToGroup('endo', $middleware);
         }
+
+        $router->aliasMiddleware('dev', Developer::class);
     }
 }

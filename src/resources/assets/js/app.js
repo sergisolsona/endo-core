@@ -23,3 +23,8 @@ require('bootstrap-3-typeahead');
 require('chosen-js');
 window.toastr = require('toastr');
 require('spectrum-colorpicker');
+
+
+require('./components/widget-updater');
+require('./components/date-picker');
+require('./components/explore-reports');

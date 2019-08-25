@@ -197,12 +197,11 @@
                     </ul>
                 </li>
             @endcan--}}
-
-            @can('view', 'admin.dev')
-                <li @if(strpos(route_name(), 'admin.dev.')  !== false)class="active"@endif>
-                    <a class="js-click" title="@lang('Dev menu')" href="{{ route('admin.dev', []) }}"><i class="fa fa-cogs"></i> <span class="nav-label">@lang('Dev menu')</span></a>
+            @foreach($menuItems as $menuItem)
+                <li @if ($menuItem['active_class'])class="active"@endif>
+                    <a class="js-click" title="{{ $menuItem['name'] }}" href="{{ $menuItem['route'] }}"><i class="fa {{ $menuItem['fa_name'] }}"></i> <span class="nav-label">{{ $menuItem['name'] }}</span></a>
                 </li>
-            @endcan
+            @endforeach
         </ul>
     </div>
 </nav>
