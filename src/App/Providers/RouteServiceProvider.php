@@ -8,8 +8,10 @@
 
 namespace Endo\EndoCore\App\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -41,7 +43,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $routesFile = endo_setting('domain_locale') ? 'routes.php' : 'lang_routes.php';
+        $routesFile = 'lang_routes.php';
+        if (Schema::hasTable('endo_settings')) {
+            $routesFile = endo_setting('domain_locale') ? 'routes.php' : 'lang_routes.php';
+        }
 
         Route::middleware('endo')
             ->namespace('Endo\EndoCore\App\Http\Controllers')
