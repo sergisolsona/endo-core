@@ -75312,6 +75312,12 @@ __webpack_require__("./src/resources/assets/js/components/widget-updater.js");
 __webpack_require__("./src/resources/assets/js/components/date-picker.js");
 __webpack_require__("./src/resources/assets/js/components/explore-reports.js");
 
+__webpack_require__("./src/resources/assets/js/components/listeners.js");
+
+$.ajaxSetup({
+  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+});
+
 /***/ }),
 
 /***/ "./src/resources/assets/js/bootstrap.js":
@@ -81631,6 +81637,45 @@ More detail and specific examples can be found in the included HTML file.
     } });
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/components/listeners.js":
+/***/ (function(module, exports) {
+
+var settingsUrls;
+
+$(document).ready(function () {
+    settingsUrls = $('.js-setting-url').val();
+    console.log(settingsUrls);
+    if (typeof settingsUrls !== 'undefined') {
+        $('.js-endo-setting').on('change', function () {
+            changeSetting($(this));
+        });
+    }
+});
+
+function changeSetting(input) {
+    var setting = input.attr('name');
+    var value = input.val();
+
+    if (input.attr('type') === 'checkbox') {
+        value = input.is(':checked') ? 1 : 0;
+    }
+
+    $.ajax({
+        url: settingsUrls,
+        method: "POST",
+        data: {
+            setting: setting,
+            value: value
+        },
+        error: function error(data) {
+            console.log(data);
+            toastr.error('Error');
+        }
+    });
+}
 
 /***/ }),
 

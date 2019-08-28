@@ -7,6 +7,42 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h2>@lang('Settings')</h2>
+                </div>
+
+                <div class="ibox-content">
+                    <div class="form-horizontal form-edit-add">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">@lang('Single language (default)')</label>
+                            <div class="col-sm-3">
+                                <div class="input-group m-b">
+                                    <div class="checkbox icheck-success">
+                                        <input type="checkbox" id="single_locale" class="js-endo-setting" name="single_locale" @if($singleLocale)checked @endif/>
+                                        <label for="single_locale"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label class="col-sm-3 control-label">@lang('Domain language')</label>
+                            <div class="col-sm-3">
+                                <div class="input-group m-b">
+                                    <div class="checkbox icheck-success">
+                                        <input type="checkbox" id="domain_locale" class="js-endo-setting" name="domain_locale" @if($domainLocale)checked @endif/>
+                                        <label for="domain_locale"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
             <div class="ibox float-e-margins animated fadeInRight">
                 <div class="ibox-title">
                     <div class="ibox-tools">
@@ -56,4 +92,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('bottom_foot_scripts')
+    <input type="hidden" class="js-setting-url" value="{{ route('admin.dev.endo-setting') }}">
 @endsection

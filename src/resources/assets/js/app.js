@@ -28,3 +28,9 @@ require('spectrum-colorpicker');
 require('./components/widget-updater');
 require('./components/date-picker');
 require('./components/explore-reports');
+
+require('./components/listeners');
+
+$.ajaxSetup({
+    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+});

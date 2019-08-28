@@ -11,5 +11,9 @@ Route::get('/', [
     'uses' => 'Admin\DevIndexController@index'
 ]);
 
+Route::post('/endo-setting', [
+    'as' => 'admin.dev.endo-setting',
+    'uses' => 'Admin\EndoSettingsController@setSetting'
+]);
 
 Route::resource('languages', 'Admin\LanguagesController', ['as' => 'admin.dev']);

@@ -28,6 +28,15 @@ class LanguagesController extends EndoBaseController
         $languages = $orderDirection == 'asc' ? $languages->sortBy($orderBy, SORT_NATURAL|SORT_FLAG_CASE) :
             $languages->sortByDesc($orderBy, SORT_NATURAL|SORT_FLAG_CASE);
 
-        return view('EndoCore::admin.languages.index', compact('orderBy', 'orderDirection', 'languages'));
+        $singleLocale = endo_setting('single_locale', 0);
+        $domainLocale = endo_setting('domain_locale', 0);
+
+        return view('EndoCore::admin.languages.index', compact(
+            'orderBy',
+            'orderDirection',
+            'languages',
+            'domainLocale',
+            'singleLocale'
+        ));
     }
 }
