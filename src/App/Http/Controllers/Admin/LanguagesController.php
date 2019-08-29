@@ -39,4 +39,69 @@ class LanguagesController extends EndoBaseController
             'singleLocale'
         ));
     }
+
+
+    public function create()
+    {
+
+    }
+
+
+    public function store()
+    {
+
+    }
+
+
+    public function edit($locale, $id = null)
+    {
+        if (is_numeric($locale) && !$id) {
+            $id = $locale;
+        }
+
+        $language = EndoLanguage::find($id);
+
+        if (!$language) {
+            abort(404);
+        }
+    }
+
+
+    public function update($locale, $id = null)
+    {
+        if (is_numeric($locale) && !$id) {
+            $id = $locale;
+        }
+
+        $language = EndoLanguage::find($id);
+
+        if (!$language) {
+            abort(404);
+        }
+    }
+
+
+    public function change($locale, $id = null)
+    {
+        if (is_numeric($locale) && !$id) {
+            $id = $locale;
+        }
+
+        $language = EndoLanguage::find($id);
+
+        if (!$language) {
+            abort(404);
+        }
+
+        $name = request()->input('name');
+        $current = request()->input('current');
+
+        $newStatus = $current ? 0 : 1;
+
+        // TODO: change other status?
+
+        $language->update([
+            $name => $newStatus
+        ]);
+    }
 }

@@ -5,8 +5,10 @@ namespace Endo\EndoCore;
 use Endo\EndoCore\App\Console\Commands\CreateAdmin;
 use Endo\EndoCore\App\Http\Middleware\Developer;
 use Endo\EndoCore\App\Http\Middleware\Locale;
+use Endo\EndoCore\App\Models\EndoLanguage;
 use Endo\EndoCore\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -63,6 +65,8 @@ class EndoCoreServiceProvider extends ServiceProvider
                 '--force' => 1
             ]);
         }
+
+        $this->loadTranslations();
     }
 
     /**
@@ -94,5 +98,30 @@ class EndoCoreServiceProvider extends ServiceProvider
         }
 
         $router->aliasMiddleware('dev', Developer::class);
+    }
+
+
+    private function loadTranslations()
+    {
+        if (Schema::hasTable('endo_languages')) {
+            $languages = EndoLanguage::all()->sortByDesc('default');
+
+            $defLanguage = $languages->first();
+            $defLanguageFile = __DIR__ . '/resources/lang/' . $defLanguage->code . '.json';
+
+            foreach ($languages as $language) {
+                $file = __DIR__ . '/resources/lang/' . $language->code . '.json';
+                if (!file_exists($file)) {
+
+                    if (file_exists($defLanguageFile)) {
+                        copy($defLanguageFile, $file);
+                    } else {
+                        file_put_contents($file, json_encode(['Settings' => 'Settings']));
+                    }
+                }
+            }
+        }
+
+        $this->loadJsonTranslationsFrom(__DIR__ . '/resources/lang');
     }
 }

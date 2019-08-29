@@ -51,3 +51,5 @@ Route::get('/', [
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     include('admin.php');
 });
+
+Route::fallback('DefaultController@processRoutes');

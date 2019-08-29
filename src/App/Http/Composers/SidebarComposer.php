@@ -32,6 +32,13 @@ class SidebarComposer
             ];
 
             $menuItems[] = [
+                'active_class' => strpos(route_name(), 'admin.dev.settings') !== false,
+                'name' => __('General settings'),
+                'route' => route('admin.dev.settings'),
+                'fa_name' => 'fa-cog'
+            ];
+
+            $menuItems[] = [
                 'active_class' => false,
                 'name' => __('Back to admin'),
                 'route' => route('admin'),

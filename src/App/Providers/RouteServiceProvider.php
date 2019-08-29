@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $routesFile = 'lang_routes.php';
         if (Schema::hasTable('endo_settings')) {
-            $routesFile = endo_setting('domain_locale') ? 'routes.php' : 'lang_routes.php';
+            $routesFile = endo_setting('domain_locale') || endo_setting('single_locale') ? 'routes.php' : 'lang_routes.php';
         }
 
         Route::middleware('endo')

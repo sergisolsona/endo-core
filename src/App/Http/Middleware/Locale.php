@@ -18,9 +18,11 @@ class Locale
     public function handle($request, Closure $next)
     {
         $isDomainLocale = endo_setting('domain_locale');
+        $isSingleLocale = endo_setting('single_locale');
 
-        if (!$isDomainLocale) {
-            $locales = EndoLanguage::all();
+        $locales = EndoLanguage::where('active', 1)->orderBy('default', 'desc')->get();
+
+        if (!$isDomainLocale && !$isSingleLocale) {
             $currentLocale = $request->route('locale');
 
             if (!$locales->where('code', $currentLocale)->first()) {
@@ -32,9 +34,26 @@ class Locale
 
                 return redirect('/' . $defLocale->code . '/' . $request->path(), 301);
             }
+        } else {
+            // Path could have a locale
+            $path = explode('/', $request->path());
 
-            URL::defaults(['locale' => $currentLocale]);
+            $localePath = count($path) ? $path[0] : null;
+
+            if ($localePath && $locales->where('code', $localePath)->first()) {
+                unset($path[0]);
+                return redirect('/' . implode('/', $path), 301);
+            }
+
+            $currentLocale = $locales->first()->code;
+            if ($isDomainLocale) {
+                $locale = $locales->where('domain', $request->getHost())->first();
+                $currentLocale = $locale ? $locale->code : $currentLocale;
+            }
         }
+
+        app()->setLocale($currentLocale);
+        URL::defaults(['locale' => $currentLocale]);
 
         return $next($request);
     }

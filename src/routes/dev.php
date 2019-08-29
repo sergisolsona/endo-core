@@ -16,4 +16,14 @@ Route::post('/endo-setting', [
     'uses' => 'Admin\EndoSettingsController@setSetting'
 ]);
 
-Route::resource('languages', 'Admin\LanguagesController', ['as' => 'admin.dev']);
+Route::get('/settings', [
+    'as'   => 'admin.dev.settings',
+    'uses' => 'Admin\SettingsController@index'
+]);
+
+Route::resource('languages', 'Admin\LanguagesController', ['as' => 'admin.dev'])->except([
+    'show',
+    'destroy'
+]);
+
+Route::post('/languages/change/{id}', 'Admin\LanguagesController@change')->name('admin.dev.languages.change');

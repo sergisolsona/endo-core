@@ -72,16 +72,28 @@
                                     </td>
                                     <td>{{ $language->code }}</td>
                                     <td>{{ $language->domain }}</td>
-                                    <td class="{{ $language->active ? 'text-navy' : 'text-danger' }}"><i class="fa {{ $language->active ? 'fa-check' : 'fa-times' }}"></i></td>
-                                    <td class="{{ $language->default ? 'text-navy' : 'text-danger' }}"><i class="fa {{ $language->default ? 'fa-check' : 'fa-times' }}"></i></td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="js-update-status {{ $language->active ? 'text-navy' : 'text-danger' }}"
+                                           data-url="{{ route('admin.dev.languages.change', ['id' => $language->id]) }}" data-name="active"
+                                           data-current-value="{{ $language->active }}" data-fa-active="fa-check" data-fa-inactive="fa-times">
+                                            <i class="fa {{ $language->active ? 'fa-check' : 'fa-times' }}"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="js-update-status {{ $language->default ? 'text-navy' : 'text-danger' }}"
+                                           data-url="{{ route('admin.dev.languages.change', ['id' => $language->id]) }}" data-name="default"
+                                           data-current-value="{{ $language->default }}" data-fa-active="fa-check" data-fa-inactive="fa-times">
+                                            <i class="fa {{ $language->default ? 'fa-check' : 'fa-times' }}"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <a class="table-action js-click" href="{{ route('admin.dev.languages.edit', ['id' => $language->id]) }}"><i class="fa fa-pencil"></i></a>
-                                        <a class="table-action js-delete-entity"
+                                        {{--<a class="table-action js-delete-entity"
                                            data-entity-message="@lang('Delete :item', ['item' => __(':lang language', ['lang' => $language->name])])"
                                            data-url="{{ route('admin.dev.languages.destroy', ['id' => $language->id]) }}"
                                            data-redirect="{{ route('admin.dev.languages.index') }}"
                                            data-token="{{ csrf_token() }}"
-                                           href="#"><i class="fa fa-trash"></i></a>
+                                           href="#"><i class="fa fa-trash"></i></a>--}}
                                     </td>
                                 </tr>
                             @endforeach
