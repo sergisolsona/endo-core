@@ -43,13 +43,19 @@ class LanguagesController extends EndoBaseController
 
     public function create()
     {
-
+        return view('EndoCore::admin.languages.edit');
     }
 
 
     public function store()
     {
+        EndoLanguage::create([
+            'name' => request()->input('name'),
+            'code' => request()->input('code'),
+            'domain' => request()->input('domain')
+        ]);
 
+        return redirect()->route('admin.dev.languages.index')->with('success', __(':item created successfully', ['item' => __('Language')]));
     }
 
 
@@ -64,6 +70,8 @@ class LanguagesController extends EndoBaseController
         if (!$language) {
             abort(404);
         }
+
+        return view('EndoCore::admin.languages.edit', compact('language'));
     }
 
 
@@ -78,6 +86,14 @@ class LanguagesController extends EndoBaseController
         if (!$language) {
             abort(404);
         }
+
+        $language->update([
+            'name' => request()->input('name'),
+            'code' => request()->input('code'),
+            'domain' => request()->input('domain')
+        ]);
+
+        return redirect()->route('admin.dev.languages.index')->with('success', __(':item created successfully', ['item' => __('Language')]));
     }
 
 
@@ -98,10 +114,27 @@ class LanguagesController extends EndoBaseController
 
         $newStatus = $current ? 0 : 1;
 
-        // TODO: change other status?
+        if (!$newStatus && $language->default) {
+            $newDefLang = EndoLanguage::where('active', 1)
+                ->where('id', '<>', $id)
+                ->first();
+            if ($newDefLang) {
+                $newDefLang->update(['default' => 1]);
+            } else {
+                abort('403', __('At least one language needed'));
+            }
+        } elseif ($newStatus && $name == 'default') {
+            EndoLanguage::where('default', 1)->update(['default' => 0]);
+        }
 
-        $language->update([
+        $params = [
             $name => $newStatus
-        ]);
+        ];
+
+        if ($name != 'default' && !$newStatus) {
+            $params['default'] = 0;
+        }
+
+        $language->update($params);
     }
 }

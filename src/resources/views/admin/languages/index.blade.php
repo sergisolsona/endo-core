@@ -75,14 +75,14 @@
                                     <td>
                                         <a href="javascript:void(0);" class="js-update-status {{ $language->active ? 'text-navy' : 'text-danger' }}"
                                            data-url="{{ route('admin.dev.languages.change', ['id' => $language->id]) }}" data-name="active"
-                                           data-current-value="{{ $language->active }}" data-fa-active="fa-check" data-fa-inactive="fa-times">
+                                           data-current-value="{{ $language->active }}" data-redirect="{{ request()->getRequestUri() }}">
                                             <i class="fa {{ $language->active ? 'fa-check' : 'fa-times' }}"></i>
                                         </a>
                                     </td>
                                     <td>
                                         <a href="javascript:void(0);" class="js-update-status {{ $language->default ? 'text-navy' : 'text-danger' }}"
                                            data-url="{{ route('admin.dev.languages.change', ['id' => $language->id]) }}" data-name="default"
-                                           data-current-value="{{ $language->default }}" data-fa-active="fa-check" data-fa-inactive="fa-times">
+                                           data-current-value="{{ $language->default }}" data-redirect="{{ request()->getRequestUri() }}">
                                             <i class="fa {{ $language->default ? 'fa-check' : 'fa-times' }}"></i>
                                         </a>
                                     </td>

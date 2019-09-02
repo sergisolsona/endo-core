@@ -75769,7 +75769,7 @@ Pace.start();
 /*$('.footable').footable({paginate: false});*/
 
 $(".js-delete-entity").each(function (e, item) {
-    $(item).click(function (e) {
+    $(item).on('click', function (e) {
         var $element = $(this);
         var entityMessage = $element.data('entity-message');
         if (confirm(entityMessage)) {
@@ -75792,6 +75792,29 @@ $(".js-delete-entity").each(function (e, item) {
                     toastr.error('Error!');
                 }
             });
+        }
+    });
+});
+
+$('.js-update-status').on('click', function () {
+    var url = $(this).data('url');
+    var name = $(this).data('name');
+    var current = $(this).data('current-value');
+    var redirectUrl = $(this).data('redirect');
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            name: name,
+            current: current
+        },
+        success: function success(data) {
+            window.location = redirectUrl;
+        },
+        error: function error(data, textStatus) {
+            toastr.error(data.responseJSON.message);
         }
     });
 });

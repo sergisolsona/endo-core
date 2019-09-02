@@ -20,19 +20,25 @@ class Locale
         $isDomainLocale = endo_setting('domain_locale');
         $isSingleLocale = endo_setting('single_locale');
 
-        $locales = EndoLanguage::where('active', 1)->orderBy('default', 'desc')->get();
+        $locales = EndoLanguage::orderBy('default', 'desc')->get();
 
         if (!$isDomainLocale && !$isSingleLocale) {
             $currentLocale = $request->route('locale');
 
-            if (!$locales->where('code', $currentLocale)->first()) {
+            if (!$locales->where('code', $currentLocale)->where('active', 1)->first()) {
                 $defLocale = $locales->where('default', 1)->first();
 
                 if (!$defLocale) {
                     $defLocale = $locales->first();
                 }
 
-                return redirect('/' . $defLocale->code . '/' . $request->path(), 301);
+                $redirUrl = '/' . $defLocale->code . '/' . $request->path();
+
+                if ($locales->where('code', $currentLocale)->first()) {
+                    $redirUrl = str_replace('/' . $currentLocale . '/', '/', $redirUrl);
+                }
+
+                return redirect($redirUrl, 301);
             }
         } else {
             // Path could have a locale

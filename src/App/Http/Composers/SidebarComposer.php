@@ -25,6 +25,13 @@ class SidebarComposer
 
         if (strpos(route_name(), 'admin.dev') !== false) {
             $menuItems[] = [
+                'active_class' => strpos(route_name(), 'admin.dev.post-types.') !== false,
+                'name' => __('Posts types'),
+                'route' => route('admin.dev.post-types.index'),
+                'fa_name' => 'fa-archive'
+            ];
+
+            $menuItems[] = [
                 'active_class' => strpos(route_name(), 'admin.dev.languages.') !== false,
                 'name' => __('Languages'),
                 'route' => route('admin.dev.languages.index'),

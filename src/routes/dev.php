@@ -21,6 +21,10 @@ Route::get('/settings', [
     'uses' => 'Admin\SettingsController@index'
 ]);
 
+Route::resource('post-types', 'Admin\PostTypesController', ['as' => 'admin.dev'])->except([
+    'show'
+]);
+
 Route::resource('languages', 'Admin\LanguagesController', ['as' => 'admin.dev'])->except([
     'show',
     'destroy'
