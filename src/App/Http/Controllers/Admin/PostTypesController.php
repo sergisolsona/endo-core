@@ -12,6 +12,7 @@ namespace Endo\EndoCore\App\Http\Controllers\Admin;
 use Endo\EndoCore\App\Http\Controllers\EndoBaseController;
 use Endo\EndoCore\App\Models\EndoLanguage;
 use Endo\EndoCore\App\Models\EndoPostType;
+use Endo\EndoCore\App\Models\EndoPostTypeTranslation;
 
 class PostTypesController extends EndoBaseController
 {
@@ -22,10 +23,14 @@ class PostTypesController extends EndoBaseController
         $orderBy        = $sort[0];
         $orderDirection = $sort[1];
 
-        $postTypes = EndoPostType::all();
+        $postTypes = EndoPostType::with('translations')->get();
 
         $postTypes = $orderDirection == 'asc' ? $postTypes->sortBy($orderBy, SORT_NATURAL|SORT_FLAG_CASE) :
             $postTypes->sortByDesc($orderBy, SORT_NATURAL|SORT_FLAG_CASE);
+
+        $postTypes->each(function ($posType) {
+            $posType->fillTranslation();
+        });
 
         return view('EndoCore::admin.post-types.index', compact(
             'orderBy',
@@ -47,9 +52,39 @@ class PostTypesController extends EndoBaseController
 
     public function store()
     {
-        EndoPostType::create([
+        $translatable = request()->input('translatable') ? 1 : 0;
 
+        $postType = EndoPostType::create([
+            'name' => request()->input('name'),
+            'translatable' => $translatable,
+            'show_image' => request()->input('show_image') ? 1 : 0,
+            'show_content' => request()->input('show_content') ? 1 : 0,
+            'show_author' => request()->input('show_author') ? 1 : 0,
+            'show_parent' => request()->input('show_parent') ? 1 : 0,
+            'show_published' => request()->input('show_published') ? 1 : 0,
         ]);
+
+        if ($translatable) {
+            $locales = request()->input('locales');
+
+            foreach ($locales as $key => $locale) {
+                EndoPostTypeTranslation::create([
+                    'endo_post_type_id' => $postType->id,
+                    'url_name' => $locale['url_name'],
+                    'title' => $locale['title'],
+                    'title_plural' => $locale['title_plural'],
+                    'locale' => $key
+                ]);
+            }
+        } else {
+            EndoPostTypeTranslation::create([
+                'endo_post_type_id' => $postType->id,
+                'url_name' => request()->input('url_name'),
+                'title' => request()->input('title'),
+                'title_plural' => request()->input('title_plural'),
+                'locale' => null
+            ]);
+        }
 
         return redirect()->route('admin.dev.post-types.index')->with('success', __(':item created successfully', ['item' => __('Post type')]));
     }
@@ -85,10 +120,74 @@ class PostTypesController extends EndoBaseController
             abort(404);
         }
 
-        $postType->update([
+        $translatable = request()->input('translatable') ? 1 : 0;
 
+        $postType->update([
+            'name' => request()->input('name'),
+            'translatable' => $translatable,
+            'show_image' => request()->input('show_image') ? 1 : 0,
+            'show_content' => request()->input('show_content') ? 1 : 0,
+            'show_author' => request()->input('show_author') ? 1 : 0,
+            'show_parent' => request()->input('show_parent') ? 1 : 0,
+            'show_published' => request()->input('show_published') ? 1 : 0,
         ]);
 
+        if ($translatable) {
+            $locales = request()->input('locales');
+
+            foreach ($locales as $key => $locale) {
+                $postTranslation = $postType->translations->where('locale', $key)->first();
+
+                $updParams = [
+                    'endo_post_type_id' => $postType->id,
+                    'url_name' => $locale['url_name'],
+                    'title' => $locale['title'],
+                    'title_plural' => $locale['title_plural'],
+                    'locale' => $key
+                ];
+
+                if (!$postTranslation) {
+                    EndoPostTypeTranslation::create($updParams);
+                } else {
+                    $postTranslation->update($updParams);
+                }
+            }
+        } else {
+            $postTranslation = $postType->translations->where('locale', null)->first();
+
+            $updParams = [
+                'endo_post_type_id' => $postType->id,
+                'url_name' => request()->input('url_name'),
+                'title' => request()->input('title'),
+                'title_plural' => request()->input('title_plural'),
+                'locale' => null
+            ];
+
+            if (!$postTranslation) {
+                EndoPostTypeTranslation::create($updParams);
+            } else {
+                $postTranslation->update($updParams);
+            }
+        }
+
         return redirect()->route('admin.dev.post-types.index')->with('success', __(':item created successfully', ['item' => __('Post type')]));
+    }
+
+
+    public function destroy($locale, $id = null)
+    {
+        if (is_numeric($locale) && !$id) {
+            $id = $locale;
+        }
+
+        $postType = EndoPostType::find($id);
+
+        if (!$postType) {
+            abort(404);
+        }
+
+        $postType->translations()->delete();
+
+        $postType->delete();
     }
 }

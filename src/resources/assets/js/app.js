@@ -23,6 +23,8 @@ require('bootstrap-3-typeahead');
 require('chosen-js');
 window.toastr = require('toastr');
 require('spectrum-colorpicker');
+window.getSlug = require('speakingurl');
+require('jquery-slugify');
 
 
 require('./components/widget-updater');

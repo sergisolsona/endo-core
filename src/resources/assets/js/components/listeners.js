@@ -1,15 +1,5 @@
 var settingsUrls;
 
-$(document).ready(function() {
-    settingsUrls = $('.js-setting-url').val();
-
-    if (typeof settingsUrls !== 'undefined') {
-        $('.js-endo-setting').on('change', function () {
-            changeSetting($(this));
-        });
-    }
-});
-
 function changeSetting(input) {
     var setting = input.attr('name');
     var value = input.val();
@@ -31,6 +21,17 @@ function changeSetting(input) {
         }
     });
 }
+
+
+$(document).ready(function() {
+    settingsUrls = $('.js-setting-url').val();
+
+    if (typeof settingsUrls !== 'undefined') {
+        $('.js-endo-setting').on('change', function () {
+            changeSetting($(this));
+        });
+    }
+});
 
 
 $(".js-delete-entity").each(function (e, item) {
@@ -83,4 +84,21 @@ $('.js-update-status').on('click', function () {
             toastr.error(data.responseJSON.message);
         }
     })
+});
+
+
+$('.js-translatable-checkbox').on('change', function () {
+    if ($(this).is(':checked')) {
+        $('.js-non-translatable').slideUp('fast');
+        $('.js-translatable').slideDown('fast');
+    } else {
+        $('.js-translatable').slideUp('fast');
+        $('.js-non-translatable').slideDown('fast');
+    }
+});
+
+
+
+$.each($('.js-sluggify'), function () {
+    $('#' + $(this).data('target')).slugify($(this)); // Type as you slug
 });

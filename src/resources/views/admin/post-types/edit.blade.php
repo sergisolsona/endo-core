@@ -33,10 +33,28 @@
                             <div class="col-sm-4">
                                 <div class="input-group m-b">
                                     <div class="checkbox icheck-success">
-                                        <input type="checkbox" id="translatable" name="translatable" @if(isset($postType) && $postType->translatable)checked @endif/>
+                                        <input type="checkbox" id="translatable" name="translatable" class="js-translatable-checkbox" @if((isset($postType) && $postType->translatable) || !isset($postType))checked @endif/>
                                         <label for="translatable"></label>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="js-non-translatable" @if((isset($postType) && $postType->translatable) || !isset($postType))style="display: none"@endif>
+                            @php ($nonLocalePostType = isset($postType) ? $postType->translations->where('locale', null)->first() : null)
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">@lang('Title'):</label>
+                                <div class="col-sm-8"><input class="form-control" type="text" name="title" value="@if($nonLocalePostType){{ $nonLocalePostType->title }}@else{{ old('title') }}@endif"/></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">@lang('Title plural'):</label>
+                                <div class="col-sm-8"><input class="form-control js-sluggify" data-target="url_name" type="text" name="title_plural" value="@if($nonLocalePostType){{ $nonLocalePostType->title_plural }}@else{{ old('title_plural') }}@endif"/></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">@lang('Url name'):</label>
+                                <div class="col-sm-8"><input id="url_name" class="form-control" type="text" name="url_name" value="@if($nonLocalePostType){{ $nonLocalePostType->url_name }}@else{{ old('url_name') }}@endif"/></div>
                             </div>
                         </div>
 
@@ -100,40 +118,40 @@
             </div>
         </div>
 
-        @foreach($locales as $locale)
-            @php ($localePostType = isset($postType) ? $postType->translations->where('locale', $locale->code)->first() : null)
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>@lang('Locale settings'): {{ $locale->name }}</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">@lang('Title'):</label>
-                                <div class="col-sm-8"><input class="form-control" type="text" name="locales[{{ $locale->code }}][title]" value="@if($localePostType){{ $localePostType->title }}@else{{ old('locales[' . $locale->code . '][title]') }}@endif"/></div>
+        <div class="js-translatable">
+            @foreach($locales as $locale)
+                @php ($localePostType = isset($postType) ? $postType->translations->where('locale', $locale->code)->first() : null)
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>@lang('Locale settings'): {{ $locale->name }}</h5>
                             </div>
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">@lang('Title'):</label>
+                                    <div class="col-sm-8"><input class="form-control" type="text" name="locales[{{ $locale->code }}][title]" value="@if($localePostType){{ $localePostType->title }}@else{{ old('locales[' . $locale->code . '][title]') }}@endif"/></div>
+                                </div>
 
-                            <div class="hr-line-dashed"></div>
+                                <div class="hr-line-dashed"></div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">@lang('Title plural'):</label>
-                                <div class="col-sm-8"><input class="form-control" type="text" name="locales[{{ $locale->code }}][title_plural]" value="@if($localePostType){{ $localePostType->title_plural }}@else{{ old('locales[' . $locale->code . '][title_plural]') }}@endif"/></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">@lang('Title plural'):</label>
+                                    <div class="col-sm-8"><input class="form-control js-sluggify" data-target="url_name_{{ $locale->code }}" type="text" name="locales[{{ $locale->code }}][title_plural]" value="@if($localePostType){{ $localePostType->title_plural }}@else{{ old('locales[' . $locale->code . '][title_plural]') }}@endif"/></div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">@lang('Url name'):</label>
+                                    <div class="col-sm-8"><input id="url_name_{{ $locale->code }}" class="form-control" type="text" name="locales[{{ $locale->code }}][url_name]" value="@if($localePostType){{ $localePostType->url_name }}@else{{ old('locales[' . $locale->code . '][url_name]') }}@endif"/></div>
+                                </div>
                             </div>
-
-                            <div class="hr-line-dashed"></div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">@lang('Url name'):</label>
-                                <div class="col-sm-8"><input class="form-control" type="text" name="locales[{{ $locale->code }}][url_name]" value="@if($localePostType){{ $localePostType->url_name }}@else{{ old('locales[' . $locale->code . '][url_name]') }}@endif"/></div>
-                            </div>
-
-                            <div class="hr-line-dashed"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
 
         <div class="row">
             <div class="col-lg-12">

@@ -25,6 +25,10 @@ Route::resource('post-types', 'Admin\PostTypesController', ['as' => 'admin.dev']
     'show'
 ]);
 
+Route::resource('custom-fields', 'Admin\CustomFieldsController', ['as' => 'admin.dev'])->except([
+    'show'
+]);
+
 Route::resource('languages', 'Admin\LanguagesController', ['as' => 'admin.dev'])->except([
     'show',
     'destroy'

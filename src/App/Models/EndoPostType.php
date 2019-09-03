@@ -26,4 +26,18 @@ class EndoPostType extends Model
     {
         return $this->hasMany(EndoPostTypeTranslation::class);
     }
+
+
+    public function fillTranslation()
+    {
+        $translation = $this->translations->filter(function ($translation) {
+            return !$translation->locale || $translation->locale == app()->getLocale();
+        })->first();
+
+        if ($translation) {
+            $this->title = $translation->title;
+            $this->title_plural = $translation->title_plural;
+            $this->url_name = $translation->url_name;
+        }
+    }
 }

@@ -19,7 +19,7 @@ class CreateEndoPostTypeTranslationsTable extends Migration
             $table->string('url_name')->unique()->nullable();
             $table->string('title');
             $table->string('title_plural');
-            $table->string('locale')->index();
+            $table->string('locale')->nullable()->index();
             $table->timestamps();
         });
     }

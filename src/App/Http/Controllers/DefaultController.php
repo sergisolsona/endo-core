@@ -14,6 +14,6 @@ class DefaultController extends EndoBaseController
 
     public function processRoutes()
     {
-
+        abort(404);
     }
 }
