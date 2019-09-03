@@ -28,23 +28,13 @@ class AddMoreToUsersTable extends Migration
         if (Schema::hasTable('users') ) {
             Schema::table('users', function (Blueprint $table) {
                 $table->string('lastname')->nullable()->after('name');
-                $table->string('avatar')->nullable()->default('user-endo.jpg')->after('password');
+                $table->string('avatar')->nullable()->default('6tems.png')->after('password');
                 $table->integer('endo_role_id')->unsigned()->nullable()->after('id');
 
                 $table->foreign('endo_role_id')->references('id')->on('endo_roles')
                     ->onDelete('SET NULL');
             });
         }
-
-        $role = DB::table('endo_roles')->where('name', 'admin')->first();
-
-        DB::table('users')->insert([
-            'name' => 'suport',
-            'lastname' => '6TEMS',
-            'email' => 'pol@6tems.com',
-            'password' => '$2y$10$/naWT4.gfnmgy2sVRAgp/uX0pysltaMvOjn9zxjka8FcnHGwNNA0m',
-            'endo_role_id' => $role->id,
-        ]);
     }
 
     /**
@@ -55,8 +45,6 @@ class AddMoreToUsersTable extends Migration
     public function down()
     {
         if (Schema::hasColumn('users', 'lastname')) {
-            DB::table('users')->where('email', 'pol@6tems.com')->delete();
-
             Schema::table('users', function (Blueprint $table) {
                 $table->dropForeign('users_endo_role_id_foreign');
 

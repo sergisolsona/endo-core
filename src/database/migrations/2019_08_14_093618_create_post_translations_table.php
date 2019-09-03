@@ -21,7 +21,7 @@ class CreatePostTranslationsTable extends Migration
             $table->string('post_name')->nullable();
             $table->string('urls_post_name')->nullable();
             $table->integer('endo_media_id')->unsigned()->nullable();
-            $table->string('locale')->index();
+            $table->string('locale')->nullable()->index();
             $table->timestamps();
 
             $table->unique(['endo_post_id', 'locale']);

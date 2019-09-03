@@ -23,3 +23,16 @@ require('bootstrap-3-typeahead');
 require('chosen-js');
 window.toastr = require('toastr');
 require('spectrum-colorpicker');
+window.getSlug = require('speakingurl');
+require('jquery-slugify');
+
+
+require('./components/widget-updater');
+require('./components/date-picker');
+require('./components/explore-reports');
+
+require('./components/listeners');
+
+$.ajaxSetup({
+    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+});

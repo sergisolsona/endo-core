@@ -18,6 +18,7 @@ class CreateLanguagesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('code')->index();
+            $table->string('domain')->nullable();
             $table->boolean('active')->default(true);
             $table->boolean('default')->default(false);
             $table->timestamps();

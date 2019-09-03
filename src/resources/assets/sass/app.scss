@@ -6,7 +6,8 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+/*@import '~bootstrap/scss/bootstrap';*/
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
 // Font-awesome
 @import '~font-awesome/scss/font-awesome';
@@ -26,20 +27,15 @@
 // Datepicker
 @import "datepicker/datepicker3";
 
-
-
 // Jasny
-@import "custom/jasny-fixes";
-@import "~jasny-bootstrap/scss/jasny-bootstrap.scss";
+/*@import "custom/jasny-fixes";*/
+@import "~jasny-bootstrap/dist/css/jasny-bootstrap.min.css";
 
 // Color picker
 @import "~spectrum-colorpicker/spectrum";
 
+// Chosen js
+@import "~bootstrap-chosen/bootstrap-chosen.css";
 
-// Inspinia
 @import "style/animate";
 @import "style/styles";
-// Chosen js
-/*@import "~bootstrap-chosen/bootstrap-chosen.scss";*/
-
-@import "custom/fixes";

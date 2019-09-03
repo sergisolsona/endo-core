@@ -17,7 +17,6 @@ class CreatePostTypesTable extends Migration
         Schema::create('endo_post_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('url_name')->unique()->nullable();
             $table->boolean('translatable')->default(true);
             $table->tinyInteger('show_image')->default(1);
             $table->tinyInteger('show_content')->default(1);

@@ -381,3 +381,14 @@ fixedSideBarElement.click(function (){
     }
 });
 
+
+$(".js-click").each(function(e, item) {
+    $(item).click(function(e){
+        $('.backoffice-loader').show();
+    });
+});
+
+Pace.start();
+
+/*$('.footable').footable({paginate: false});*/
+

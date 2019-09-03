@@ -2,22 +2,34 @@
 
 namespace Endo\EndoCore;
 
+use Endo\EndoCore\App\Console\Commands\CreateAdmin;
+use Endo\EndoCore\App\Http\Middleware\Developer;
+use Endo\EndoCore\App\Http\Middleware\Locale;
+use Endo\EndoCore\App\Models\EndoLanguage;
 use Endo\EndoCore\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 
 class EndoCoreServiceProvider extends ServiceProvider
 {
     private $middlewareGroup = [
+        Locale::class,
         \App\Http\Middleware\EncryptCookies::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         // \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\VerifyCsrfToken::class,
-        \Illuminate\Routing\Middleware\SubstituteBindings::class
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
     ];
+
+    private $commands = [
+        CreateAdmin::class
+    ];
+
     /**
      * Bootstrap services.
      *
@@ -25,17 +37,27 @@ class EndoCoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /*$this->loadRoutesFrom(__DIR__ . '/routes.php');*/
-        $this->routing();
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
-        $this->loadViewsFrom(__DIR__ . '/resources/views', 'EndoCore');
 
         $this->setUserModel();
+
+        $this->pushMiddlewares();
+
+        // Load more providers
+        foreach (glob(__DIR__ . '/App/Providers/*.php') as $filename) {
+            $filenameArray = explode('/', $filename);
+            $this->app->register(__NAMESPACE__ . '\App\Providers\\' . str_replace('.php', '', end($filenameArray)));
+        }
+
+        $this->commands($this->commands);
+
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'EndoCore');
 
         $this->publishes([
             __DIR__.'/public' => public_path('vendor/endo'),
         ], 'public');
 
+        // Auto publish public files
         if (!file_exists(public_path('vendor/endo/mix-manifest.json'))
             || md5_file(__DIR__ . '/public/mix-manifest.json') !== md5_file(public_path('vendor/endo/mix-manifest.json'))) {
             Artisan::call('vendor:publish', [
@@ -43,6 +65,8 @@ class EndoCoreServiceProvider extends ServiceProvider
                 '--force' => 1
             ]);
         }
+
+        $this->loadTranslations();
     }
 
     /**
@@ -64,7 +88,7 @@ class EndoCoreServiceProvider extends ServiceProvider
     }
 
 
-    private function routing()
+    private function pushMiddlewares()
     {
         /** @var Router $router */
         $router = $this->app['router'];
@@ -73,8 +97,31 @@ class EndoCoreServiceProvider extends ServiceProvider
             $router->pushMiddlewareToGroup('endo', $middleware);
         }
 
-        Route::middleware('endo')
-            ->namespace('Endo\EndoCore\App\Http\Controllers')
-            ->group(__DIR__ . '/routes/routes.php');
+        $router->aliasMiddleware('dev', Developer::class);
+    }
+
+
+    private function loadTranslations()
+    {
+        if (Schema::hasTable('endo_languages')) {
+            $languages = EndoLanguage::all()->sortByDesc('default');
+
+            $defLanguage = $languages->first();
+            $defLanguageFile = __DIR__ . '/resources/lang/' . $defLanguage->code . '.json';
+
+            foreach ($languages as $language) {
+                $file = __DIR__ . '/resources/lang/' . $language->code . '.json';
+                if (!file_exists($file)) {
+
+                    if (file_exists($defLanguageFile)) {
+                        copy($defLanguageFile, $file);
+                    } else {
+                        file_put_contents($file, json_encode(['Settings' => 'Settings']));
+                    }
+                }
+            }
+        }
+
+        $this->loadJsonTranslationsFrom(__DIR__ . '/resources/lang');
     }
 }
