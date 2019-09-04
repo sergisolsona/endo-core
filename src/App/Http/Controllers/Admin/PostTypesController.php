@@ -86,7 +86,8 @@ class PostTypesController extends EndoBaseController
             ]);
         }
 
-        return redirect()->route('admin.dev.post-types.index')->with('success', __(':item created successfully', ['item' => __('Post type')]));
+        return redirect()->route('admin.dev.post-types.index')
+            ->with('success', __(':item created successfully', ['item' => __('Post type')]));
     }
 
 
@@ -170,7 +171,8 @@ class PostTypesController extends EndoBaseController
             }
         }
 
-        return redirect()->route('admin.dev.post-types.index')->with('success', __(':item created successfully', ['item' => __('Post type')]));
+        return redirect()->route('admin.dev.post-types.index')
+            ->with('success', __(':item updated successfully', ['item' => __('Post type')]));
     }
 
 

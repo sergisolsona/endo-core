@@ -55,7 +55,8 @@ class LanguagesController extends EndoBaseController
             'domain' => request()->input('domain')
         ]);
 
-        return redirect()->route('admin.dev.languages.index')->with('success', __(':item created successfully', ['item' => __('Language')]));
+        return redirect()->route('admin.dev.languages.index')
+            ->with('success', __(':item created successfully', ['item' => __('Language')]));
     }
 
 
@@ -93,7 +94,8 @@ class LanguagesController extends EndoBaseController
             'domain' => request()->input('domain')
         ]);
 
-        return redirect()->route('admin.dev.languages.index')->with('success', __(':item created successfully', ['item' => __('Language')]));
+        return redirect()->route('admin.dev.languages.index')
+            ->with('success', __(':item updated successfully', ['item' => __('Language')]));
     }
 
 

@@ -29,6 +29,10 @@ Route::resource('custom-fields', 'Admin\CustomFieldsController', ['as' => 'admin
     'show'
 ]);
 
+Route::resource('roles', 'Admin\RolesController', ['as' => 'admin.dev'])->except([
+    'show'
+]);
+
 Route::resource('languages', 'Admin\LanguagesController', ['as' => 'admin.dev'])->except([
     'show',
     'destroy'

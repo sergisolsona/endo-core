@@ -76,7 +76,10 @@ class EndoCoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        foreach (glob(__DIR__ . '/config/*.php') as $filename) {
+            $configName = str_replace('.php', '', array_reverse(explode('/', $filename))[0]);
+            $this->mergeConfigFrom($filename, $configName);
+        }
     }
 
 

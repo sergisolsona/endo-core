@@ -17,7 +17,6 @@ class CreateCustomFieldGroupsTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->boolean('translatable');
-            $table->integer('order')->default(0);
             $table->string('position');
             $table->timestamps();
         });
