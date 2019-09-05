@@ -48,7 +48,7 @@ Route::get('/', [
 ]);
 
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     include('admin.php');
 });
 

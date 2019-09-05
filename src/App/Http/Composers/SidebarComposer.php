@@ -39,6 +39,13 @@ class SidebarComposer
             ];
 
             $menuItems[] = [
+                'active_class' => strpos(route_name(), 'admin.dev.roles.') !== false,
+                'name' => __('Roles'),
+                'route' => route('admin.dev.roles.index'),
+                'fa_name' => 'fa-lock'
+            ];
+
+            $menuItems[] = [
                 'active_class' => strpos(route_name(), 'admin.dev.languages.') !== false,
                 'name' => __('Languages'),
                 'route' => route('admin.dev.languages.index'),
@@ -59,7 +66,16 @@ class SidebarComposer
                 'fa_name' => 'fa-cogs'
             ];
         } else {
-            $user = auth()->user();
+            $user = request('user', auth()->user());
+
+            if ($user->can('view', 'admin.users.index')) {
+                $menuItems[] = [
+                    'active_class' => strpos(route_name(), 'admin.users.') !== false,
+                    'name' => __('Users'),
+                    'route' => route('admin.users.index'),
+                    'fa_name' => 'fa-users'
+                ];
+            }
 
             if ($user->can('view', 'admin.dev')) {
                 $menuItems[] = [

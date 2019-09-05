@@ -10,7 +10,9 @@ namespace Endo\EndoCore\App\Http\Controllers\Admin;
 
 
 use Endo\EndoCore\App\Http\Controllers\EndoBaseController;
+use Endo\EndoCore\App\Models\EndoPostType;
 use Endo\EndoCore\App\Models\EndoRole;
+use Illuminate\Support\Facades\Route;
 
 class RolesController extends EndoBaseController
 {
@@ -37,7 +39,10 @@ class RolesController extends EndoBaseController
 
     public function create()
     {
-        return view('EndoCore::admin.roles.edit');
+        $routes = $this->getAllRouteNames();
+        $postTypes = EndoPostType::all();
+
+        return view('EndoCore::admin.roles.edit', compact('routes', 'postTypes'));
     }
 
 
@@ -59,7 +64,12 @@ class RolesController extends EndoBaseController
             abort(404);
         }
 
-        return view('EndoCore::admin.roles.edit', compact('role'));
+        $role->load(['permissions', 'postPermissions']);
+
+        $routes = $this->getAllRouteNames();
+        $postTypes = EndoPostType::all();
+
+        return view('EndoCore::admin.roles.edit', compact('role', 'routes', 'postTypes'));
     }
 
 
@@ -90,5 +100,21 @@ class RolesController extends EndoBaseController
         }
 
         $role->delete();
+    }
+
+
+    private function getAllRouteNames()
+    {
+        $routes = Route::getRoutes()->getRoutesByName();
+
+        $adminRoutes = [];
+        foreach ($routes as $key => $route) {
+            if (strpos($key, 'admin') === 0 && strpos($key, 'admin.dev') === false) {
+                $r = str_replace('admin.', '', $key);
+                $adminRoutes[explode('.', $r)[0]][] = $r;
+            }
+        }
+
+        return $adminRoutes;
     }
 }

@@ -6,8 +6,7 @@ Route::get('/', [
 ]);
 
 Route::resource('users', 'Admin\UsersController', ['as' => 'admin'])->except([
-    'show',
-    'destroy'
+    'show'
 ]);
 
 Route::group(['middleware' => ['dev'], 'prefix' => 'dev'], function () {

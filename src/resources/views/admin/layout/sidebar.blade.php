@@ -1,5 +1,5 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
-    <form id="logout-form" action="{{ url('/logout') }}" method="post">
+    <form id="logout-form" action="{{ route('logout') }}" method="post">
         @csrf
     </form>
 
@@ -8,20 +8,20 @@
             <li class="nav-header">
                 <div class="profile-element">
                     <span>
-                        <img class="@if($user)img-circle @else sidebar-logo @endif" @if($user)width="48" height="48"@else width="96"@endif alt="Endo" src="{{ asset('vendor/endo/imgs/' . $user->avatar) }}">
+                        <img class="@if($authUser)img-circle @else sidebar-logo @endif" @if($authUser)width="48" height="48"@else width="96"@endif alt="Endo" src="{{ asset('vendor/endo/imgs/' . $authUser->avatar) }}">
                     </span>
-                    @if ($user)
+                    @if ($authUser)
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
                             <span class="clear">
-                                <span class="block m-t-xs"> <strong class="font-bold">{{ $user->name }}</strong></span>
-                                <span class="text-muted text-xs block">{{ $user->endoRole->name }} <b class="caret"></b></span>
+                                <span class="block m-t-xs"> <strong class="font-bold">{{ $authUser->name }}</strong></span>
+                                <span class="text-muted text-xs block">{{ $authUser->endoRole->name }} <b class="caret"></b></span>
                             </span>
                         </a>
 
                         <ul class="dropdown-menu animated fadeInDown m-t-xs">
                             {{--<li class="divider"></li>--}}
                             <li>
-                                <a href="#" onclick="$('#logout-form').submit();" title="Logout">Cerrar sesión</a>
+                                <a href="#" onclick="$('#logout-form').submit();" title="@lang('Logout')">@lang('Logout')</a>
                                 {{--<a href="{{ url('/logout') }}" onclick="e.preventDefault();$('#llogout-form').submit();" title="Logout">Logout</a>--}}
                             </li>
                         </ul>
