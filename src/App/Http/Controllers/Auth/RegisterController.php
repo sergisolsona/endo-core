@@ -3,6 +3,7 @@
 namespace Endo\EndoCore\App\Http\Controllers\Auth;
 
 use Endo\EndoCore\App\Http\Controllers\EndoBaseController;
+use Endo\EndoCore\App\Models\EndoRole;
 use Endo\EndoCore\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -63,10 +64,19 @@ class RegisterController extends EndoBaseController
      */
     protected function create(array $data)
     {
-        return User::create([
+        $lowestRole = EndoRole::orderBy('level', 'asc')->first();
+
+        $createParams = [
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);
+            'endo_role_id' => isset($data['role_id']) ? $data['role_id'] : $lowestRole->id
+        ];
+
+        if (isset($data['lastname'])) {
+            $createParams['lastname'] = $data['lastname'];
+        }
+
+        return User::create($createParams);
     }
 }

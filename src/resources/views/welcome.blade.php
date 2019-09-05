@@ -65,9 +65,14 @@
         </style>
     </head>
     <body>
+        <form id="logout-form" action="{{ route('logout') }}" method="post">
+            @csrf
+        </form>
+
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
+                    <a href="#" onclick="document.getElementById('logout-form').submit();" title="@lang('Logout')">@lang('Logout')</a>
                     <a href="{{ url('/admin') }}">Admin</a>
                 </div>
             @endif

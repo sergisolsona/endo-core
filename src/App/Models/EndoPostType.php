@@ -32,7 +32,7 @@ class EndoPostType extends Model
     {
         $translation = $this->translations->filter(function ($translation) {
             return !$translation->locale || $translation->locale == app()->getLocale();
-        })->first();
+        })->sortByDesc('locale')->first();
 
         if ($translation) {
             $this->title = $translation->title;

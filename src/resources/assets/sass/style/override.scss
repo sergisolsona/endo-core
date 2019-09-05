@@ -1,0 +1,159 @@
+.table {
+  .thead {
+    padding: 10px 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-around;
+    border: 1px solid #dddddd;
+
+    li.li-field-order {
+      height: auto;
+      border: none;
+      padding: 0;
+    }
+  }
+
+  .tbody {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border: 1px solid #dddddd;
+  }
+
+  .cf-row {
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background: #f6f6f6;
+    border-bottom: 1px solid #dddddd;
+
+    > li {
+      width: 21%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  li {
+    .li-field-params,
+    .li-field-order {
+      width: 6%;
+    }
+
+    .li-field-params {
+      cursor: pointer;
+      transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+      &:hover {
+        background: #dedede;
+        border-radius: 6px;
+      }
+    }
+  }
+
+  .sortable {
+    li {
+      .li-field-order {
+        width: 40px;
+        height: 40px;
+        padding: 4px;
+        background: white;
+        border: 1px solid #b9b9b9;
+        -webkit-border-radius: 100%;
+        -moz-border-radius: 100%;
+        -ms-border-radius: 100%;
+        -o-border-radius: 100%;
+        border-radius: 100%;
+        cursor: grab;
+      }
+
+      .li-field-title {
+        width: auto;
+        max-width: 75%;
+      }
+    }
+  }
+
+  .params {
+    width: 100%;
+  }
+}
+
+.repeater-field .table .cf-row {
+  padding: 5px 10px;
+  justify-content: space-between;
+}
+
+.row2 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cf-item {
+  .params-content {
+    display: flex;
+    flex-flow: wrap;
+    flex-direction: column;
+
+    &.collapse {
+      display: none;
+    }
+
+    &.show {
+      display: flex;
+    }
+
+    .row2 {
+      border-bottom: 1px solid #dddddd;
+      width: 100%;
+    }
+
+    input, textarea {
+      background-color: #f3f3f3;
+    }
+
+    .col-form-label {
+      color: #333;
+      font-weight: bold;
+      background: #f3f3f3;
+      padding: 30px 10px !important;
+      text-align: left !important;
+      border-bottom: 1px solid #dddddd;
+    }
+
+    .param {
+      display: flex;
+      flex-flow: wrap row;
+
+      .flex-row {
+        width: 100%;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.cf-row {
+  .acc_icon_expand {
+    display: none;
+  }
+  &.acc-active {
+    background: var(--grn-drk);
+
+    input {
+      color: white;
+
+      &:focus {
+        color: white;
+      }
+    }
+
+    .cf-item .params-content {
+      border: 3px solid var(--grn-drk);
+    }
+  }
+}

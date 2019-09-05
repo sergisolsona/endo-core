@@ -19,7 +19,7 @@ class EndoBaseController extends BaseController
 
     public function callAction($method, $parameters)
     {
-        view()->share('user', auth()->user());
+        view()->share('authUser', request('user', auth()->user()));
 
         return parent::callAction($method, $parameters);
     }

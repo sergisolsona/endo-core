@@ -30,6 +30,9 @@ class CreatePostTypesTable extends Migration
         DB::table('endo_post_types')->insert([
             'name' => 'post'
         ]);
+        DB::table('endo_post_types')->insert([
+            'name' => 'page'
+        ]);
     }
 
     /**

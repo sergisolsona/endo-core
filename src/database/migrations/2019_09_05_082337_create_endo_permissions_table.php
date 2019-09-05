@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomFieldGroupsTable extends Migration
+class CreateEndoPermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateCustomFieldGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('endo_custom_field_groups', function (Blueprint $table) {
+        Schema::create('endo_permissions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->boolean('translatable');
-            $table->string('position');
+            $table->integer('endo_role_id')->unsigned();
+            $table->string('route_name');
             $table->timestamps();
+
+            $table->unique(['endo_role_id', 'route_name']);
         });
     }
 
@@ -29,6 +30,6 @@ class CreateCustomFieldGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('endo_custom_field_groups');
+        Schema::dropIfExists('endo_permissions');
     }
 }

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: sergisolsona
- * Date: 22/08/2019
- * Time: 17:47
+ * Date: 05/09/2019
+ * Time: 11:04
  */
 
 namespace Endo\EndoCore\App\Models;
@@ -11,7 +11,7 @@ namespace Endo\EndoCore\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EndoRole extends Model
+class EndoPostPermission extends Model
 {
 
     /**
@@ -22,14 +22,8 @@ class EndoRole extends Model
     protected $guarded = [];
 
 
-    public function permissions()
+    public function role()
     {
-        return $this->hasMany(EndoPermission::class);
-    }
-
-
-    public function postPermissions()
-    {
-        return $this->hasMany(EndoPostPermission::class);
+        return $this->belongsTo(EndoRole::class);
     }
 }

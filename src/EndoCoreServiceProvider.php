@@ -3,6 +3,7 @@
 namespace Endo\EndoCore;
 
 use Endo\EndoCore\App\Console\Commands\CreateAdmin;
+use Endo\EndoCore\App\Http\Middleware\Admin;
 use Endo\EndoCore\App\Http\Middleware\Developer;
 use Endo\EndoCore\App\Http\Middleware\Locale;
 use Endo\EndoCore\App\Models\EndoLanguage;
@@ -76,7 +77,10 @@ class EndoCoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        foreach (glob(__DIR__ . '/config/*.php') as $filename) {
+            $configName = str_replace('.php', '', array_reverse(explode('/', $filename))[0]);
+            $this->mergeConfigFrom($filename, $configName);
+        }
     }
 
 
@@ -97,6 +101,7 @@ class EndoCoreServiceProvider extends ServiceProvider
             $router->pushMiddlewareToGroup('endo', $middleware);
         }
 
+        $router->aliasMiddleware('admin', Admin::class);
         $router->aliasMiddleware('dev', Developer::class);
     }
 

@@ -19,6 +19,13 @@ class RoutesPolicy
             return true;
         }
 
+        if (!$routeName) {
+            $routeName = route_name();
+        }
+
+        if ($user->endoRole->permissions->where('route_name', $routeName)->first()) {
+            return true;
+        }
         // TODO checks
 
         return false;

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: sergisolsona
- * Date: 22/08/2019
- * Time: 17:47
+ * Date: 04/09/2019
+ * Time: 10:38
  */
 
 namespace Endo\EndoCore\App\Models;
@@ -11,9 +11,8 @@ namespace Endo\EndoCore\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EndoRole extends Model
+class EndoCustomField extends Model
 {
-
     /**
      * The attributes that are mass assignable.
      *
@@ -22,14 +21,8 @@ class EndoRole extends Model
     protected $guarded = [];
 
 
-    public function permissions()
+    public function customFieldGroup()
     {
-        return $this->hasMany(EndoPermission::class);
-    }
-
-
-    public function postPermissions()
-    {
-        return $this->hasMany(EndoPostPermission::class);
+        return $this->belongsTo(EndoCustomFieldGroup::class);
     }
 }
