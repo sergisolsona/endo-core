@@ -20,6 +20,9 @@ class CreateEndoPermissionsTable extends Migration
             $table->timestamps();
 
             $table->unique(['endo_role_id', 'route_name']);
+
+            $table->foreign('endo_role_id')->references('id')->on('endo_roles')
+                ->onDelete('CASCADE');
         });
     }
 

@@ -56,6 +56,7 @@ class PostTypesController extends EndoBaseController
 
         $postType = EndoPostType::create([
             'name' => request()->input('name'),
+            'template' => request()->input('template'),
             'translatable' => $translatable,
             'show_image' => request()->input('show_image') ? 1 : 0,
             'show_content' => request()->input('show_content') ? 1 : 0,
@@ -125,6 +126,7 @@ class PostTypesController extends EndoBaseController
 
         $postType->update([
             'name' => request()->input('name'),
+            'template' => request()->input('template'),
             'translatable' => $translatable,
             'show_image' => request()->input('show_image') ? 1 : 0,
             'show_content' => request()->input('show_content') ? 1 : 0,

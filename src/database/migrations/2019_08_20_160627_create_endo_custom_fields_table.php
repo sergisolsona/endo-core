@@ -20,6 +20,7 @@ class CreateEndoCustomFieldsTable extends Migration
             $table->string('title');
             $table->string('type');
             $table->string('instructions');
+            $table->longText('params');
             $table->integer('order');
             $table->timestamps();
 

@@ -10,9 +10,11 @@ namespace Endo\EndoCore\App\Http\Controllers\Admin;
 
 
 use Endo\EndoCore\App\Http\Controllers\EndoBaseController;
+use Endo\EndoCore\App\Models\EndoPermission;
+use Endo\EndoCore\App\Models\EndoPostPermission;
 use Endo\EndoCore\App\Models\EndoPostType;
 use Endo\EndoCore\App\Models\EndoRole;
-use Illuminate\Support\Facades\Route;
+use Endo\EndoCore\App\Services\EndoRolesService;
 
 class RolesController extends EndoBaseController
 {
@@ -39,7 +41,7 @@ class RolesController extends EndoBaseController
 
     public function create()
     {
-        $routes = $this->getAllRouteNames();
+        $routes = app(EndoRolesService::class)->getAllRouteNames();
         $postTypes = EndoPostType::all();
 
         return view('EndoCore::admin.roles.edit', compact('routes', 'postTypes'));
@@ -48,7 +50,37 @@ class RolesController extends EndoBaseController
 
     public function store()
     {
+        $role = EndoRole::create([
+            'name' => request()->input('name'),
+            'level' => request()->input('level', 0),
+            'is_dev' => request()->input('is_dev') ? 1 : 0
+        ]);
 
+        $permissions = request()->input('permissions', []);
+
+        foreach ($permissions as $key => $permission) {
+            EndoPermission::create([
+                'endo_role_id' => $role->id,
+                'route_name' => $key
+            ]);
+        }
+
+        $postPermissions = request()->input('post_permissions', []);
+
+        foreach ($postPermissions as $key => $postPermission) {
+            EndoPostPermission::create([
+                'endo_role_id' => $role->id,
+                'endo_post_type_id' => $key,
+                'create' => isset($postPermission['create']),
+                'read' => isset($postPermission['read']),
+                'update' => isset($postPermission['update']),
+                'delete' => isset($postPermission['delete']),
+                'publish' => isset($postPermission['publish'])
+            ]);
+        }
+
+        return redirect()->route('admin.dev.roles.index')
+            ->with('success', __(':item created successfully', ['item' => __('Role')]));
     }
 
 
@@ -66,7 +98,7 @@ class RolesController extends EndoBaseController
 
         $role->load(['permissions', 'postPermissions']);
 
-        $routes = $this->getAllRouteNames();
+        $routes = app(EndoRolesService::class)->getAllRouteNames();
         $postTypes = EndoPostType::all();
 
         return view('EndoCore::admin.roles.edit', compact('role', 'routes', 'postTypes'));
@@ -84,6 +116,51 @@ class RolesController extends EndoBaseController
         if (!$role) {
             abort(404);
         }
+
+        $role->update([
+            'name' => request()->input('name'),
+            'level' => request()->input('level', 0),
+            'is_dev' => request()->input('is_dev') ? 1 : 0
+        ]);
+
+        $permissions = request()->input('permissions', []);
+
+        foreach ($permissions as $key => $permission) {
+            EndoPermission::firstOrCreate([
+                'endo_role_id' => $role->id,
+                'route_name' => $key
+            ]);
+        }
+
+        $postPermissions = request()->input('post_permissions', []);
+
+        foreach ($postPermissions as $key => $postPermission) {
+            $endoPostPermission = EndoPostPermission::firstOrNew([
+                'endo_role_id' => $role->id,
+                'endo_post_type_id' => $key
+            ]);
+
+            $upd = [
+                'create' => isset($postPermission['create']),
+                'read' => isset($postPermission['read']),
+                'update' => isset($postPermission['update']),
+                'delete' => isset($postPermission['delete']),
+                'publish' => isset($postPermission['publish'])
+            ];
+
+            if ($endoPostPermission->exists) {
+                $endoPostPermission->update($upd);
+            } else {
+                foreach ($upd as $key => $value) {
+                    $endoPostPermission->$key = $value;
+                }
+
+                $endoPostPermission->save();
+            }
+        }
+
+        return redirect()->route('admin.dev.roles.index')
+            ->with('success', __(':item updated successfully', ['item' => __('Role')]));
     }
 
 
@@ -100,21 +177,5 @@ class RolesController extends EndoBaseController
         }
 
         $role->delete();
-    }
-
-
-    private function getAllRouteNames()
-    {
-        $routes = Route::getRoutes()->getRoutesByName();
-
-        $adminRoutes = [];
-        foreach ($routes as $key => $route) {
-            if (strpos($key, 'admin') === 0 && strpos($key, 'admin.dev') === false) {
-                $r = str_replace('admin.', '', $key);
-                $adminRoutes[explode('.', $r)[0]][] = $r;
-            }
-        }
-
-        return $adminRoutes;
     }
 }

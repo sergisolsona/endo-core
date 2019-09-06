@@ -25,6 +25,12 @@ class CreateEndoPostPermissionsTable extends Migration
             $table->timestamps();
 
             $table->unique(['endo_role_id', 'endo_post_type_id']);
+
+            $table->foreign('endo_role_id')->references('id')->on('endo_roles')
+                ->onDelete('CASCADE');
+
+            $table->foreign('endo_post_type_id')->references('id')->on('endo_post_types')
+                ->onDelete('CASCADE');
         });
     }
 

@@ -14,4 +14,8 @@ use Endo\EndoCore\App\Http\Controllers\EndoBaseController;
 class SettingsController extends EndoBaseController
 {
 
+    public function index()
+    {
+        return 'TODO if needed';
+    }
 }
