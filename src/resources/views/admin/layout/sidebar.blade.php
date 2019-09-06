@@ -199,7 +199,21 @@
             @endcan--}}
             @foreach($menuItems as $menuItem)
                 <li @if ($menuItem['active_class'])class="active"@endif>
-                    <a class="js-click" title="{{ $menuItem['name'] }}" href="{{ $menuItem['route'] }}"><i class="fa {{ $menuItem['fa_name'] }}"></i> <span class="nav-label">{{ $menuItem['name'] }}</span></a>
+                    <a title="{{ $menuItem['name'] }}" @if (isset($menuItem['route'])) class="js-click" href="{{ $menuItem['route'] }}"@else href="#"@endif>
+                        <i class="fa {{ $menuItem['fa_name'] }}"></i>
+                        <span class="nav-label">{{ $menuItem['name'] }}</span>
+                        @if (isset($menuItem['routes']))<span class="fa arrow"></span>@endif
+                    </a>
+
+                    @if (isset($menuItem['routes']))
+                        <ul class="nav nav-second-level collapse @if($menuItem['active_class'])in @endif">
+                            @foreach($menuItem['routes'] as $menuSubItem)
+                                <li>
+                                    <a title="{{ $menuSubItem['name'] }}" class="js-click" href="{{ $menuSubItem['route'] }}"><i @if (isset($menuSubItem['fa_name'])) class="fa {{ $menuSubItem['fa_name'] }}"@endif></i> <span class="nav-label">{{ $menuSubItem['name'] }}</span></a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </li>
             @endforeach
         </ul>

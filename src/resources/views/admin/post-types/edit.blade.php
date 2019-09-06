@@ -29,6 +29,13 @@
                         <div class="hr-line-dashed"></div>
 
                         <div class="form-group">
+                            <label class="col-sm-2 control-label">@lang('Template'):</label>
+                            <div class="col-sm-8"><input class="form-control" type="text" name="template" required value="@if(isset($postType)){{ $postType->template }}@else{{ old('template') }}@endif"/></div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">@lang('Translatable'):</label>
                             <div class="col-sm-4">
                                 <div class="input-group m-b">

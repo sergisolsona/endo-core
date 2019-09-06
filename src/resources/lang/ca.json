@@ -13,7 +13,13 @@
     "General settings": "General settings",
     "Languages": "Languages",
     "Name": "Name",
+    "Page": "Page",
+    "Pages": "Pages",
+    "Post": "Post",
+    "Posts": "Posts",
     "Settings": "Settings",
     "Single language (default)": "Single language (default)",
-    "Total languages": "Total languages"
+    "Total languages": "Total languages",
+    "page": "page",
+    "post": "post"
 }

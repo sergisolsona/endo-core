@@ -40,7 +40,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group m-b">
                                     <div class="checkbox icheck-success">
-                                        <input type="checkbox" id="is_dev" name="is_dev" @if((isset($role) && $role->is_dev) || !isset($role))checked @endif/>
+                                        <input type="checkbox" id="is_dev" name="is_dev" @if((isset($role) && $role->is_dev))checked @endif/>
                                         <label for="is_dev"></label>
                                     </div>
                                 </div>
@@ -65,12 +65,12 @@
                                 @if ($key % 2 == 0)
                                 <div class="form-group">
                                 @endif
-                                    <label class="col-sm-2 control-label" for="{{ $route }}">{{ $route }}:</label>
+                                    <label class="col-sm-2 control-label" for="{{ $route['name'] }}">{{ $route['text'] }}:</label>
                                     <div class="col-sm-4">
                                         <div class="input-group m-b">
                                             <div class="checkbox icheck-success">
-                                                <input type="checkbox" id="{{ $route }}" name="permissions[{{ $route }}]" @if(isset($role) && $role->permissions->where('route_name', $route)->first())checked @endif/>
-                                                <label for="{{ $route }}"></label>
+                                                <input type="checkbox" id="{{ $route['name'] }}" name="permissions[{{ $route['name'] }}]" @if(isset($role) && $role->permissions->where('route_name', $route['name'])->first())checked @endif/>
+                                                <label for="{{ $route['name'] }}"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                 <div class="col-sm-4">
                                     <div class="input-group m-b">
                                         <div class="checkbox icheck-success">
-                                            <input type="checkbox" id="{{ $postType->name . '_create' }}" name="post_permissions[{{ $postType->name }}][create]"
+                                            <input type="checkbox" id="{{ $postType->name . '_create' }}" name="post_permissions[{{ $postType->id }}][create]"
                                                    @if(isset($role) && $role->postPermissions->where('endo_post_type_id', $postType->id)->first() && $role->postPermissions->where('endo_post_type_id', $postType->id)->first()->create)checked @endif/>
                                             <label for="{{ $postType->name . '_create' }}"></label>
                                         </div>
@@ -101,7 +101,7 @@
                                 <div class="col-sm-4">
                                     <div class="input-group m-b">
                                         <div class="checkbox icheck-success">
-                                            <input type="checkbox" id="{{ $postType->name . '_read' }}" name="post_permissions[{{ $postType->name }}][read]"
+                                            <input type="checkbox" id="{{ $postType->name . '_read' }}" name="post_permissions[{{ $postType->id }}][read]"
                                                    @if(isset($role) && $role->postPermissions->where('endo_post_type_id', $postType->id)->first() && $role->postPermissions->where('endo_post_type_id', $postType->id)->first()->read)checked @endif/>
                                             <label for="{{ $postType->name . '_read' }}"></label>
                                         </div>
@@ -113,7 +113,7 @@
                                 <div class="col-sm-4">
                                     <div class="input-group m-b">
                                         <div class="checkbox icheck-success">
-                                            <input type="checkbox" id="{{ $postType->name . '_update' }}" name="post_permissions[{{ $postType->name }}][update]"
+                                            <input type="checkbox" id="{{ $postType->name . '_update' }}" name="post_permissions[{{ $postType->id }}][update]"
                                                    @if(isset($role) && $role->postPermissions->where('endo_post_type_id', $postType->id)->first() && $role->postPermissions->where('endo_post_type_id', $postType->id)->first()->update)checked @endif/>
                                             <label for="{{ $postType->name . '_update' }}"></label>
                                         </div>
@@ -124,7 +124,7 @@
                                 <div class="col-sm-4">
                                     <div class="input-group m-b">
                                         <div class="checkbox icheck-success">
-                                            <input type="checkbox" id="{{ $postType->name . '_delete' }}" name="post_permissions[{{ $postType->name }}][delete]"
+                                            <input type="checkbox" id="{{ $postType->name . '_delete' }}" name="post_permissions[{{ $postType->id }}][delete]"
                                                    @if(isset($role) && $role->postPermissions->where('endo_post_type_id', $postType->id)->first() && $role->postPermissions->where('endo_post_type_id', $postType->id)->first()->delete)checked @endif/>
                                             <label for="{{ $postType->name . '_delete' }}"></label>
                                         </div>
@@ -137,7 +137,7 @@
                                 <div class="col-sm-4">
                                     <div class="input-group m-b">
                                         <div class="checkbox icheck-success">
-                                            <input type="checkbox" id="{{ $postType->name . '_publish' }}" name="post_permissions[{{ $postType->name }}][publish]"
+                                            <input type="checkbox" id="{{ $postType->name . '_publish' }}" name="post_permissions[{{ $postType->id }}][publish]"
                                                    @if(isset($role) && $role->postPermissions->where('endo_post_type_id', $postType->id)->first() && $role->postPermissions->where('endo_post_type_id', $postType->id)->first()->publish)checked @endif/>
                                             <label for="{{ $postType->name . '_publish' }}"></label>
                                         </div>

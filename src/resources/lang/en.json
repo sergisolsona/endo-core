@@ -39,6 +39,8 @@
     "Main": "Main",
     "Name": "Name",
     "Order": "Order",
+    "Page": "Page",
+    "Pages": "Pages",
     "Password": "Password",
     "Permissions": "Permissions",
     "Position": "Position",
@@ -46,6 +48,7 @@
     "Post permissions": "Post permissions",
     "Post type": "Post type",
     "Post types": "Post types",
+    "Posts": "Posts",
     "Posts permissions": "Posts permissions",
     "Posts types": "Posts types",
     "Publish": "Publish",
@@ -76,5 +79,7 @@
     "Users": "Users",
     "custom field": "custom field",
     "language": "language",
+    "page": "page",
+    "post": "post",
     "post type": "post type"
 }
