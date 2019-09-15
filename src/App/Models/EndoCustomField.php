@@ -25,4 +25,10 @@ class EndoCustomField extends Model
     {
         return $this->belongsTo(EndoCustomFieldGroup::class);
     }
+
+
+    public function getParams()
+    {
+        return config('custom_fields.' . $this->type, []);
+    }
 }

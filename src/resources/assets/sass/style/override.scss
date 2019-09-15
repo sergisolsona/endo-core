@@ -39,12 +39,12 @@
   }
 
   li {
-    .li-field-params,
-    .li-field-order {
+    &.li-field-params,
+    &.li-field-order {
       width: 6%;
     }
 
-    .li-field-params {
+    &.li-field-params {
       cursor: pointer;
       transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
@@ -57,7 +57,7 @@
 
   .sortable {
     li {
-      .li-field-order {
+      &.li-field-order {
         width: 40px;
         height: 40px;
         padding: 4px;
@@ -71,7 +71,7 @@
         cursor: grab;
       }
 
-      .li-field-title {
+      &.li-field-title {
         width: auto;
         max-width: 75%;
       }

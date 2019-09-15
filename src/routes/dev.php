@@ -29,6 +29,16 @@ Route::resource('custom-fields', 'Admin\CustomFieldsController', ['as' => 'admin
     'show'
 ]);
 
+Route::get('/custom-fields/add-cf', [
+    'as' => 'admin.dev.custom-fields.add-new',
+    'uses' => 'Admin\CustomFieldsController@addCustomField'
+]);
+
+Route::get('/custom-fields/change-cf-type', [
+    'as' => 'admin.dev.custom-fields.change-type',
+    'uses' => 'Admin\CustomFieldsController@changeCustomFieldType'
+]);
+
 Route::resource('roles', 'Admin\RolesController', ['as' => 'admin.dev'])->except([
     'show'
 ]);

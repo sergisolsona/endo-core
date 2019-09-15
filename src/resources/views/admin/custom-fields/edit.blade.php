@@ -73,10 +73,15 @@
                                 <li class="li-field-type">@lang('Type')</li>
                                 <li class="li-field-params"></li>
                             </ul>
-                            <ul class="sortable tbody sortable-parent">
+                            <ul class="sortable tbody sortable-parent js-custom-field">
                                 @if (isset($customFieldGroup))
                                     @foreach ($customFieldGroup->customFields->sortBy('order') as $customField)
-                                        @include('EndoCore::partials.custom-field-row', ['customField' => $customField])
+                                        @include('EndoCore::partials.custom-fields.row', [
+                                            'customField' => $customField,
+                                            'order' => $customField->order,
+                                            'customFieldTypes' => $customFieldTypes,
+                                            'cfParams' => $customField
+                                        ])
                                     @endforeach
                                 @endif
                             </ul>
@@ -85,7 +90,7 @@
 
                     <div class="ibox-footer">
                         <div class="ml-auto">
-                            <button type="button" rel="tooltip" class="btn btn-sm btn-primary js-add-field">
+                            <button type="button" rel="tooltip" class="btn btn-sm btn-primary js-add-field" data-add-url="{{ route('admin.dev.custom-fields.add-new') }}">
                                 @lang('Add')
                             </button>
                         </div>

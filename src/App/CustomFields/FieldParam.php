@@ -44,7 +44,7 @@ class FieldParam
     public function getField() {
         $post = $this->getPost();
         
-        return view("Admin::default.custom_fields_params.".$this->id, [
+        return view("EndoCore::admin.partials.custom-fields.params.".$this->id, [
             'is_param' => true,
             'title' => $this->getTitle(),
             'instruccions' => $this->getInstructions(),

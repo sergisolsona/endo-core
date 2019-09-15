@@ -10,6 +10,7 @@ namespace Endo\EndoCore\App\Http\Controllers\Admin;
 
 
 use Endo\EndoCore\App\Http\Controllers\EndoBaseController;
+use Endo\EndoCore\App\Models\EndoCustomField;
 use Endo\EndoCore\App\Models\EndoCustomFieldGroup;
 use Endo\EndoCore\App\Models\EndoPostType;
 
@@ -113,5 +114,69 @@ class CustomFieldsController extends EndoBaseController
         $customFieldGroup->customFields()->delete();
 
         $customFieldGroup->delete();
+    }
+
+
+    public function addCustomField()
+    {
+        $order = request('order', 0);
+
+        $customFieldTypes = config('custom_fields', []);
+
+        if (count($customFieldTypes)) {
+            $cfParams = array_first($customFieldTypes)['params'];
+        }
+
+        /*try {*/
+            $view = view('EndoCore::admin.partials.custom-fields.row', [
+                'order' => $order,
+                'customFieldTypes' => $customFieldTypes,
+                'cfParams' => isset($cfParams) ? $cfParams : null
+            ])->render();
+        /*} catch (\Throwable $e) {
+            abort(500);
+        }*/
+
+        $response = [
+            'view' => $view
+        ];
+
+        return response()->json($response);
+    }
+
+
+    public function changeCustomFieldType()
+    {
+        $type = request('type', 'text');
+        $cfId = request('cf-id');
+        $cfgId = request('cfg-id');
+
+        $customFieldTypes = config('custom_fields', []);
+
+        if (count($customFieldTypes)) {
+            $cfParams = $customFieldTypes[$type]['params'];
+        }
+
+        $params = [
+            'cfParams' => isset($cfParams) ? $cfParams : null,
+            'order' => $cfId
+        ];
+
+        if ($cfId && $cfgId) {
+            $customField = EndoCustomField::find($cfId);
+
+            $params['customField'] = $customField;
+        }
+        /*try {*/
+            $view = view('EndoCore::admin.partials.custom-fields.param-rows', $params)->render();
+        /*} catch (\Throwable $e) {
+            abort(500);
+        }*/
+
+        $response = [
+            'widget' => $view
+        ];
+
+        return response()->json($response);
     }
 }

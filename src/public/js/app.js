@@ -77028,6 +77028,7 @@ __webpack_require__("./src/resources/assets/js/components/date-picker.js");
 __webpack_require__("./src/resources/assets/js/components/explore-reports.js");
 
 __webpack_require__("./src/resources/assets/js/components/listeners.js");
+__webpack_require__("./src/resources/assets/js/custom-fields.js");
 
 $.ajaxSetup({
   headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
@@ -84651,6 +84652,91 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 if (typeof window !== 'undefined') {
     window.WidgetUpdater = new WidgetUpdater();
+}
+
+/***/ }),
+
+/***/ "./src/resources/assets/js/custom-fields.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+(function (window, $) {
+    var CustomFields = function CustomFields() {
+        this.init();
+    };
+
+    CustomFields.prototype = {
+        init: function init() {
+            this.bindings();
+        },
+
+        bindings: function bindings() {
+            var me = this;
+
+            $('.js-add-field').on('click', function () {
+                me.addCf($(this).data('add-url') + '?order=' + $('.cf-item').length);
+            });
+
+            $(document).on('click', '.js-params-toggle', function () {
+                $(this).closest('.custom-field-row').find('.js-params-content').toggleClass('collapse');
+            });
+
+            $(document).on('click', '.js-params-delete', function () {
+                $(this).closest('.custom-field-row').remove();
+            });
+
+            $(document).on('change', '.js-custom-field-types', function () {
+                WidgetUpdater.update($(this).data('change-url') + '?type=' + $(this).val() + '&cf-id=' + $(this).data('cf-id') + '&cfg-id=' + $(this).data('cfg-id'), $(this).closest('.custom-field-row').find('.js-param-rows'));
+            });
+        },
+
+        addCf: function addCf(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function success(data) {
+                    $('.js-custom-field').append(data.view);
+                },
+                error: function error() {
+                    toastr.error('Error!');
+                }
+            });
+        },
+
+        changeType: function changeType(url, type) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function success(data) {
+                    $('.js-param-rows').html(data.view);
+                },
+                error: function error() {
+                    toastr.error('Error!');
+                }
+            });
+        }
+    };
+
+    if (typeof self !== 'undefined') {
+        self.CustomFields = CustomFields;
+    }
+
+    // Expose as a CJS module
+    if (( false ? 'undefined' : _typeof(exports)) === 'object') {
+        module.exports = CustomFields;
+    }
+})(window, $);
+
+var addCfButton = $('.js-add-field').first();
+if (typeof addCfButton !== 'undefined' && addCfButton !== null && addCfButton.length > 0) {
+    new CustomFields();
 }
 
 /***/ }),

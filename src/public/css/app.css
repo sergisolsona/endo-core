@@ -19013,23 +19013,22 @@ ul.funnel li:nth-child(10) span {
           align-items: center;
 }
 
-.table li .li-field-params,
-.table li .li-field-order {
+.table li.li-field-params, .table li.li-field-order {
   width: 6%;
 }
 
-.table li .li-field-params {
+.table li.li-field-params {
   cursor: pointer;
   -webkit-transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.table li .li-field-params:hover {
+.table li.li-field-params:hover {
   background: #dedede;
   border-radius: 6px;
 }
 
-.table .sortable li .li-field-order {
+.table .sortable li.li-field-order {
   width: 40px;
   height: 40px;
   padding: 4px;
@@ -19040,7 +19039,7 @@ ul.funnel li:nth-child(10) span {
   cursor: grab;
 }
 
-.table .sortable li .li-field-title {
+.table .sortable li.li-field-title {
   width: auto;
   max-width: 75%;
 }

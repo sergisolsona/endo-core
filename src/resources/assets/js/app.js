@@ -32,6 +32,7 @@ require('./components/date-picker');
 require('./components/explore-reports');
 
 require('./components/listeners');
+require('./custom-fields');
 
 $.ajaxSetup({
     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
