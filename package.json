@@ -37,7 +37,7 @@
         "jquery-ui": "^1.12.1",
         "jquery-ui-bundle": "^1.12.1-migrate",
         "ladda": "^1.0.6",
-        "moment": "^2.24.0",
+        "moment": "^2.29.4",
         "speakingurl": "^14.0.1",
         "spectrum-colorpicker": "^1.8.0",
         "toastr": "^2.1.4"
